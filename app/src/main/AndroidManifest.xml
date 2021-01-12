@@ -11,7 +11,7 @@
         android:theme="@style/Theme.GameTetris">
         <activity android:name=".Gameover"></activity>
         <activity android:name=".Playscreen" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".StartScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
