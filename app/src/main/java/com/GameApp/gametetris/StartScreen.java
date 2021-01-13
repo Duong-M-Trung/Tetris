@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.media.MediaPlayer;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,8 +23,8 @@ public class StartScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_screen);
         mediaPlayer = MediaPlayer.create(this,R.raw.tetris_soundtrack);
-        //mediaPlayer.start();
-        //mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+        mediaPlayer.setLooping(true);
         readPreferences();
         mPref = getSharedPreferences("setup", MODE_PRIVATE);
     }
@@ -47,10 +48,11 @@ public class StartScreen extends AppCompatActivity {
     }
 
     public void onStart(View v){
-        Intent intent = new Intent(this, Gamemodes.class);
+        Intent intent = new Intent(this, Marathon.class);
         startActivity(intent);
         buttonsound = MediaPlayer.create(this,R.raw.clickstart);
         buttonsound.start();
+        mediaPlayer.stop();
     }
 
     public void onSettings(View v){
@@ -69,8 +71,10 @@ public class StartScreen extends AppCompatActivity {
 
     public void onExit(View v){
         mediaPlayer.stop();
-        finish();
         buttonsound = MediaPlayer.create(this,R.raw.clickmenuhome);
         buttonsound.start();
+        finishAffinity();
+        System.exit(0);
+
     }
 }

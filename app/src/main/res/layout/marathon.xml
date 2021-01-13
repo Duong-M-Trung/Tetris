@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="50dp"
         android:id="@+id/TV"
         style="@android:style/TextAppearance.DeviceDefault.Medium"
         android:fontFamily="monospace"/>
@@ -103,15 +103,6 @@
                     android:onClick="onDropClick"
                     android:id="@+id/ButtonRotate180"/>
 
-                <Button
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="↗"
-                    android:layout_weight="1"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="30dp"
-                    android:onClick="onDropClick"
-                    android:id="@+id/ButtonHold"/>
 
                 <Button
                     android:layout_height="wrap_content"
@@ -192,20 +183,11 @@
         android:layout_marginTop="100dp"
         android:text="Lines : 0"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/TV3"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/IV4"
-            android:background="@drawable/tetrisgray"/>
 
         <ScrollView
             android:layout_alignParentRight="true"
             android:layout_height="100dp"
-            android:layout_below="@+id/IV4"
+            android:layout_below="@+id/TV3"
             android:layout_marginTop="10dp"
             android:layout_marginRight="2dp"
             android:layout_width="66dp">

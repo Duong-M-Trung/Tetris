@@ -13,7 +13,6 @@
         <activity android:name=".Marathon"></activity>
         <activity android:name=".Maps"></activity>
         <activity android:name=".Settings"></activity>
-        <activity android:name=".Gamemodes"></activity>
         <activity android:name=".Playscreen" />
         <activity android:name=".StartScreen">
             <intent-filter>

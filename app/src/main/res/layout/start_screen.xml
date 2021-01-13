@@ -3,64 +3,55 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@drawable/tetrisapphome">
 
-    <Button
+
+    <ImageButton
         android:id="@+id/Start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300px"
+        android:layout_height="300px"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="561dp"
-        android:layout_marginEnd="59dp"
-        android:layout_marginRight="59dp"
-        android:onClick="onStart"
-        android:text="Start Game!"
-        android:textAllCaps="false" />
+        android:layout_marginTop="370dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/btnplay"
+        android:onClick="onStart">
 
-    <Button
-        android:id="@+id/Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="88dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginRight="48dp"
-        android:layout_marginBottom="41dp"
-        android:layout_toEndOf="@+id/Maps"
-        android:layout_toRightOf="@+id/Maps"
-        android:onClick="onSettings"
-        android:text="Settings"
-        android:textAllCaps="false" />
+    </ImageButton>
 
-    <Button
+    <ImageButton
         android:id="@+id/Maps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="380px"
+        android:layout_height="128px"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="48dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginBottom="38dp"
-        android:onClick="onMaps"
-        android:text="Maps"
-        android:textAllCaps="false" />
+        android:layout_marginStart="31dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/btnmaps"
+        android:onClick="onMaps">
+    </ImageButton>
 
-    <Button
+
+    <ImageButton
+        android:id="@+id/Settings"
+        android:layout_width="380px"
+        android:layout_height="128px"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/btnsetting"
+        android:onClick="onSettings">
+    </ImageButton>
+
+    <ImageButton
         android:id="@+id/Exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300px"
+        android:layout_height="300px"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="49dp"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="560dp"
-        android:onClick="onExit"
-        android:text="Goodbye, App"
-        android:textAllCaps="false" />
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/btnexit"
+        android:onClick="onExit"></ImageButton>
+
 
 </RelativeLayout>

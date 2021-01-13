@@ -38,7 +38,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     private MediaPlayer gameover;
 
     TextView TV, TV2, TV3, TV4, TV5, GV, GV2;
-    ImageView IV, IV2, IV3, IV4;
+    ImageView IV, IV2, IV3;
     Button button, DASright, DASleft;
     Point pc1 = new Point(); Point pc2 = new Point(); Point pc3 = new Point(); Point pc4 = new Point(); Point ptTouch = new Point(0, 0);
     MainView mainView,mainView2;
@@ -85,8 +85,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     int linesClearedAtOnce = 0;
     int bag7number = 0;
     int bag7numberCheck = 0;
-    int holdPieceNumber = 8;
-    int timesHoldPieceUsed = 0;
     int combo = 0;
     int piecesSinceCombo = 0;
     int lockDelay = 250; // Half of what it should be, Milliseconds
@@ -162,7 +160,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         IV = (ImageView)findViewById(R.id.IV);
         IV2 = (ImageView)findViewById(R.id.IV2);
         IV3 = (ImageView)findViewById(R.id.IV3);
-        IV4 = (ImageView)findViewById(R.id.IV4);
         button = (Button)findViewById(R.id.ButtonSoftDrop);
         DASright = (Button)findViewById(R.id.ButtonRight);
         DASleft = (Button)findViewById(R.id.ButtonLeft);
@@ -345,6 +342,8 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     }
 
     public void lose(){
+        Intent intent = new Intent(this,Gameover.class);
+        Bundle bundle = new Bundle();
         gameover= MediaPlayer.create(this,R.raw.gameover);
         gameover.start();
         notLose = false;
@@ -353,7 +352,9 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
 
         if(playMode.equals("Marathon")) {
 
-            if(score < 1000) {
+            bundle.putLong("score", score);
+
+            /*if(score < 1000) {
                 TV.setText("You lose! \nFinal Score:" + "\n" + score + " Points...");
             } else if(score < 5000){
                 TV.setText("You lose! \nFinal Score:" + "\n" + score + " Points");
@@ -363,16 +364,16 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                 TV.setText("You lose! \nFinal Score:" + "\n" + score + " Points!!!");
             } else {
                 TV.setText("You lose! \nFinal Score:" + "\nA WHOPPING\n" + score + " POINTS!!!");
-            }
+            }*/
 
             readPreferences();
-            mainView.invalidate();
+            //mainView.invalidate();
             if (score > highscore) {
                 highscore = score;
             }
             savePreferences();
 
-        } else if(playMode.equals("Sprint")){
+        } /*else if(playMode.equals("Sprint")){
             readPreferences();
             sprintTime = (long)(SystemClock.uptimeMillis() - (long)startTime);
             long theSprintTime = (long)(Integer.parseInt(sprintHighscore.substring(0, 2)) * 60000 + Integer.parseInt(sprintHighscore.substring(5, 7)) * 1000 + Integer.parseInt(sprintHighscore.substring(10, 13)));
@@ -385,20 +386,26 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             }
 
             mainView.invalidate();
+            TV.setVisibility(View.VISIBLE);
             TV.setText("Game Over! Time: \n" + sprintTimeString);
-        }
+        }*/
 
         savePreferences();
 
         if(playMode.equals("Marathon")){
-            TV.append("\nHighscore: " + highscore);
+            /*TV.append("\nHighscore: " + highscore);*/
+            bundle.putLong("highscore",highscore);
         }
-        else if(playMode.equals("Sprint"))
+        /*else if(playMode.equals("Sprint"))
             if(sprintHighscore.equals("99 : 99 : 999")){
                 TV.append("\n\nFastest Time: \n" + "Unset");
             } else {
                 TV.append("\n\nFastest Time: \n" + sprintHighscore);
-            }
+            }*/
+        // đóng gói bundle vào intent
+        intent.putExtras(bundle);
+// start SecondActivity
+        startActivity(intent);
     }
 
     public void savePreferences(){
@@ -489,8 +496,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                                     tetrisBoardColor[i][j] = 7;
                                 }
                             }
-                            holdPieceNumber = 7;
-                            IV4.setImageResource(R.drawable.tetrisgray);
                             TV.setText("");
                             TV2.setText("Score : 0");
                             TV3.setText("Level : 0");
@@ -518,8 +523,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                             }
                             bag7number = 0;
                             bag7numberCheck = 0;
-                            holdPieceNumber = 8;
-                            timesHoldPieceUsed = 0;
                             if(playMode.equals("Sprint")){
                                 sprintTime = 0;
                                 startTime = 0;
@@ -541,8 +544,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                                     tetrisBoardColor[i][j] = 7;
                                 }
                             }
-                            holdPieceNumber = 7;
-                            IV4.setImageResource(R.drawable.tetrisgray);
                             TV.setText("");
                             TV2.setText("Score : 0");
                             TV3.setText("Level : 0");
@@ -570,8 +571,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                             }
                             bag7number = 0;
                             bag7numberCheck = 0;
-                            holdPieceNumber = 8;
-                            timesHoldPieceUsed = 0;
                             if(playMode.equals("Sprint")){
                                 sprintTime = 0;
                                 startTime = 0;
@@ -1009,51 +1008,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         }
     }
 
-    public void holdPiece(){
-        Rotation.rotateAmount = 0;
-        if(timesHoldPieceUsed == 0 && !paused) {
-            for (int i = 0; i < 30; i++) {
-                for (int j = 0; j < 10; j++) {
-                    if (tetrisBoard[j][i]) {
-                        tetrisBoard[j][i] = false;
-                        tetrisBoardColor[j][i] = 7;
-                    }
-                }
-            }
-            if (holdPieceNumber == 8) {
-                timer.removeMessages(0);
-                timer.removeMessages(3);
-                holdPieceNumber = random;
-                getPiece();
-            } else {
-                timer.removeMessages(0);
-                timer.removeMessages(3);
-                int temp = random;
-                random = holdPieceNumber;
-                holdPieceNumber = temp;
-                dontWorryAboutIt = true;
-                getPiece();
-            }
-            if (holdPieceNumber == 0) {
-                IV4.setImageResource(R.drawable.nextpurplepiece);
-            } else if (holdPieceNumber == 1) {
-                IV4.setImageResource(R.drawable.nextorangepiece);
-            } else if (holdPieceNumber == 2) {
-                IV4.setImageResource(R.drawable.nextbluepiece);
-            } else if (holdPieceNumber == 3) {
-                IV4.setImageResource(R.drawable.nextyellowpiece);
-            } else if (holdPieceNumber == 4) {
-                IV4.setImageResource(R.drawable.nextlightbluepiece);
-            } else if (holdPieceNumber == 5) {
-                IV4.setImageResource(R.drawable.nextredpiece);
-            } else if (holdPieceNumber == 6) {
-                IV4.setImageResource(R.drawable.nextgreenpiece);
-            } else {
-                IV4.setImageResource(R.drawable.tetrisgray);
-            }
-            timesHoldPieceUsed++;
-        }
-    }
 
     void check7bag(int rand){
         if(rand == 4) {
@@ -1317,7 +1271,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                     }
                     showBoard();
                 } else {
-                    holdPiece();
+
                 }
             }
             ptTouch.set((int)e.getX(), (int)e.getY());
@@ -1556,13 +1510,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                         rotate180 = false;
                         rotation.rotateLeft();
                     }
-                    break;
-                }
-                case R.id.ButtonHold: {
-                    ;
-                    lockTries++;
-                    canLock = false;
-                    holdPiece();
                     break;
                 }
             }
@@ -2241,7 +2188,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         if(piecesSinceCombo > 1){
             combo = 0;
         }
-        timesHoldPieceUsed = 0;
         lockTries = 0;
         checkLine();
         Rotation.rotateAmount = 0; // https://github.com/DonggeunJung/Tetris
