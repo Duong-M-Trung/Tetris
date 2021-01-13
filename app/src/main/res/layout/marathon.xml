@@ -8,66 +8,71 @@
     tools:context="com.GameApp.gametetris.Marathon">
 
     <RelativeLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/TV2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            style="@android:style/TextAppearance.DeviceDefault.Medium"
-            android:text="Score : 0"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TV2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:text="Score : 0"
+        android:textColor="@color/white"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="50dp"
         android:id="@+id/TV"
         style="@android:style/TextAppearance.DeviceDefault.Medium"
         android:fontFamily="monospace"/>
 
-        <Button
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="17.5dp"
-            android:layout_marginRight="17.5dp"
-            android:id="@+id/Pause"
-            android:onClick="onPause"
-            android:background="@drawable/pausebutton"/>
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="17.5dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/Pause"
+        android:onClick="onPause"
+        android:background="@drawable/pausebutton" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@id/Pause"
+        android:id="@+id/IV"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/tetrisgray"/>
 
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/IV"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/IV"
-        android:layout_below="@id/Pause"
+        android:layout_marginRight="20dp"
+        android:id="@+id/IV2"
         android:background="@drawable/tetrisgray"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/IV"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/IV2"
-            android:background="@drawable/tetrisgray"/>
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/IV2"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/IV3"
-            android:background="@drawable/tetrisgray"/>
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/IV2"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:id="@+id/IV3"
+        android:background="@drawable/tetrisgray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,36 +88,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <Button
-                    android:layout_height="wrap_content"
+                    android:id="@+id/ButtonHardDrop"
                     android:layout_width="wrap_content"
-                    android:text="↓"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_weight="1"
-                    android:textSize="30dp"
+                    android:onClick="onDropClick"
+                    android:text="▼"
+                    android:textSize="30dp" />
+
+                <ImageButton
+                    android:layout_height="180px"
+                    android:layout_width="180px"
+                    android:background="@drawable/btnarrowdown"
                     android:onClick="onDropClick"
                     android:id="@+id/ButtonSoftDrop"/>
 
+
                 <Button
-                    android:layout_height="wrap_content"
+                    android:id="@+id/ButtonRotate180"
                     android:layout_width="wrap_content"
-                    android:text="↕"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:textSize="30dp"
-                    android:onClick="onDropClick"
-                    android:id="@+id/ButtonRotate180"/>
-
-
-                <Button
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="▼"
                     android:layout_weight="1"
-                    android:layout_alignParentRight="true"
-                    android:textSize="30dp"
                     android:onClick="onDropClick"
-                    android:id="@+id/ButtonHardDrop"/>
+                    android:text="↕"
+                    android:textSize="30dp" />
+
 
             </LinearLayout>
 
@@ -123,13 +126,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="3"
+            <ImageButton
+                android:layout_height="180px"
+                android:layout_width="180px"
                 android:text="←"
                 android:textSize="30dp"
                 android:onClick="onClick"
+                android:background="@drawable/btnarrowleft"
                 android:id="@+id/ButtonLeft"/>
 
             <Button
@@ -150,13 +153,11 @@
                 android:onClick="onRotateClick"
                 android:id="@+id/ButtonRotateRight"/>
 
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:text="→"
-                android:textSize="30dp"
+            <ImageButton
+                android:layout_height="180px"
+                android:layout_width="180px"
                 android:onClick="onClick"
+                android:background="@drawable/btnarrowright"
                 android:id="@+id/ButtonRight"/>
 
         </LinearLayout>
@@ -167,42 +168,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TV4"
+        android:layout_below="@+id/IV3"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_alignTop="@+id/IV3"
         android:layout_marginTop="70dp"
-        android:text="Level : 0"/>
+        android:text="Level : 0"
+        android:textColor="@color/white"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TV3"
+        android:layout_below="@+id/TV4"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_alignTop="@+id/IV3"
         android:layout_marginTop="100dp"
-        android:text="Lines : 0"/>
+        android:text="Lines : 0"
+        android:textColor="@color/white"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
 
 
-        <ScrollView
-            android:layout_alignParentRight="true"
-            android:layout_height="100dp"
-            android:layout_below="@+id/TV3"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="2dp"
-            android:layout_width="66dp">
+    <ScrollView
+        android:layout_alignParentRight="true"
+        android:layout_height="100dp"
+        android:layout_below="@+id/TV3"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="2dp"
+        android:layout_width="90dp">
 
-            <TextView
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/TV5"
-                android:text="Points!"
-                android:visibility="visible"
-                android:fontFamily="monospace"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/TV5"
+            android:text="Points!"
+            android:visibility="visible"
+            android:fontFamily="monospace"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
-        </ScrollView>
+    </ScrollView>
 
     </RelativeLayout>
+
 
 </FrameLayout>

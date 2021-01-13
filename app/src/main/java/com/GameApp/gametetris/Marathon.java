@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,8 +35,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Marathon extends AppCompatActivity implements Rotation.eventListen  {
 
-    private MediaPlayer rotatesound;
+    private MediaPlayer clicksound;
     private MediaPlayer gameover;
+    private MediaPlayer getscoresound;
 
     TextView TV, TV2, TV3, TV4, TV5, GV, GV2;
     ImageView IV, IV2, IV3;
@@ -121,7 +123,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         FrameLayout frame = (FrameLayout)findViewById(R.id.mainLayout);
         frame.addView(mainView, 0);
 
-
         mPref = getSharedPreferences("setup", MODE_PRIVATE);
         readPreferences(); // This is for the highscore
 
@@ -160,9 +161,12 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         IV = (ImageView)findViewById(R.id.IV);
         IV2 = (ImageView)findViewById(R.id.IV2);
         IV3 = (ImageView)findViewById(R.id.IV3);
-        button = (Button)findViewById(R.id.ButtonSoftDrop);
-        DASright = (Button)findViewById(R.id.ButtonRight);
-        DASleft = (Button)findViewById(R.id.ButtonLeft);
+        ImageButton button = (ImageButton)findViewById(R.id.ButtonSoftDrop);
+        ImageButton DASright = (ImageButton)findViewById(R.id.ButtonRight);
+        ImageButton DASleft = (ImageButton)findViewById(R.id.ButtonLeft);
+        clicksound = MediaPlayer.create(this,R.raw.clickingame);
+        gameover= MediaPlayer.create(this,R.raw.gameover2);
+        getscoresound= MediaPlayer.create(this,R.raw.getscore2);
 
         if(showPointsLog){
             TV5.setVisibility(View.VISIBLE);
@@ -187,6 +191,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         button.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                clicksound.start();
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     softDrop = true;
                     timer.removeMessages(0);
@@ -202,6 +207,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         DASleft.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                clicksound.start();
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     moveHorizontalOnce(0);
                     DASL = true;
@@ -217,8 +223,10 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         });
 
         DASright.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                clicksound.start();
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     moveHorizontalOnce(1);
                     DASR = true;
@@ -271,7 +279,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
 
         public void onDraw(Canvas canvas){
             if(notLose) {
-                canvas.drawColor(Color.WHITE);
+                canvas.drawColor(Color.parseColor("#3c2456"));
                 Paint pnt = new Paint();
                 drawScreen(canvas);
             } else {
@@ -303,6 +311,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             int startY = screen.bottom;
             for(int i = 0; i < 10; i++){
                 for(int j = 0; j < 20; j++){
+                    clicksound.start();
                     int posX = startX + i * width;
                     int posY = startY - j * height;
                     if(tetrisBoardColor[i][j] == 10) {
@@ -344,7 +353,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     public void lose(){
         Intent intent = new Intent(this,Gameover.class);
         Bundle bundle = new Bundle();
-        gameover= MediaPlayer.create(this,R.raw.gameover);
         gameover.start();
         notLose = false;
         for(int i = 0; i <= 7; i++)
@@ -1471,6 +1479,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     }
 
     public void onClick(View v){
+
         switch( v.getId() ){
 
             case R.id.ButtonLeft : {
@@ -1494,13 +1503,16 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         if(!paused) {
             switch (v.getId()) {
                 case R.id.ButtonSoftDrop: {
+                    clicksound.start();
                     break;
                 }
                 case R.id.ButtonHardDrop: {
+                    clicksound.start();
                     hardDrop();
                     break;
                 }
                 case R.id.ButtonRotate180: {
+                    clicksound.start();
                     if(rotationType != 0) {
                         TSpin = true;
                         lockTries++;
@@ -1562,6 +1574,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         if(!paused) {
             switch (v.getId()) {
                 case R.id.ButtonRotateLeft: {
+                    clicksound.start();
                     rotationRight = false;
                     TSpin = true;
                     lockTries++;
@@ -1570,6 +1583,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                     break; // I forgot to put this break command here so I tried fixing the rotation system for hours and hours but this was the problem not the rotation class :P
                 }
                 case R.id.ButtonRotateRight: {
+                    clicksound.start();
                     rotationRight = true;
                     TSpin = true;
                     lockTries++;
@@ -1977,24 +1991,28 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                     B2B = true;
                 } else {
                     if (linesClearedAtOnce == 1) {
+                        getscoresound.start();
                         score += 100 * (level + 1) + combo * 50;
                         piecesSinceCombo = 0;
                         combo++;
                         TV5.append("Single\n");
                         B2B = false;
                     } else if (linesClearedAtOnce == 2) {
+                        getscoresound.start();
                         score += 300 * (level + 1) + combo * 50;
                         piecesSinceCombo = 0;
                         combo++;
                         TV5.append("Double\n");
                         B2B = false;
                     } else if (linesClearedAtOnce == 3) {
+                        getscoresound.start();
                         score += 500 * (level + 1) + combo * 50;
                         piecesSinceCombo = 0;
                         combo++;
                         TV5.append("Triple\n");
                         B2B = false;
                     } else if (linesClearedAtOnce == 4) {
+                        getscoresound.start();
                         if (B2B)
                             score += 1200 * (level + 1) + combo * 50;
                         else
@@ -2092,24 +2110,28 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                 B2B = true;
             } else {
                 if (linesClearedAtOnce == 1) {
+                    getscoresound.start();
                     score += 100 * (level + 1) + combo * 50;
                     piecesSinceCombo = 0;
                     combo++;
                     TV5.append("Single\n");
                     B2B = false;
                 } else if (linesClearedAtOnce == 2) {
+                    getscoresound.start();
                     score += 300 * (level + 1) + combo * 50;
                     piecesSinceCombo = 0;
                     combo++;
                     TV5.append("Double\n");
                     B2B = false;
                 } else if (linesClearedAtOnce == 3) {
+                    getscoresound.start();
                     score += 500 * (level + 1) + combo * 50;
                     piecesSinceCombo = 0;
                     combo++;
                     TV5.append("Triple\n");
                     B2B = false;
                 } else if (linesClearedAtOnce == 4) {
+                    getscoresound.start();
                     if (B2B)
                         score += 1200 * (level + 1) + combo * 50;
                     else
