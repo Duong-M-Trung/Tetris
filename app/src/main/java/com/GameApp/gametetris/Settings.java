@@ -109,7 +109,7 @@ public class Settings extends AppCompatActivity {
                         SharedPreferences.Editor editor = mPref.edit();
 
                         parent.highscore = 0;
-                        parent.sprintHighscore = "99 : 99 : 999";
+                        //parent.sprintHighscore = "99 : 99 : 999";
                         editor.putString("highscore", "0");
                         editor.putString("sprint highscore", "99 : 99 : 999");
                         editor.commit();

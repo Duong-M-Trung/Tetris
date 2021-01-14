@@ -38,6 +38,9 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     private MediaPlayer clicksound;
     private MediaPlayer gameover;
     private MediaPlayer getscoresound;
+    private MediaPlayer musicingame;
+
+    private int maxVolume = 50;
 
     TextView TV, TV2, TV3, TV4, TV5, GV, GV2;
     ImageView IV, IV2, IV3;
@@ -57,9 +60,9 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     Bitmap tetrisGhost;
     public static String playMode = "Marathon";
     public static int sprintUpdate = 50;
-    long pausedSprintTimeStart = 0;
+    //long pausedSprintTimeStart = 0;
     String sprintTimeString = ""; // This is formated
-    public static String sprintHighscore = "";
+    //public static String sprintHighscore = "";
 
     Boolean lockInAir = false;
     Boolean canRotate = true;
@@ -82,7 +85,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     public static int softDropSpeed = 10;
     int random = 8, random2 = 8, random3 = 8, random4 = 8;
     int rotationEffortTries = 0;
-    int lines = 0; int linesNeeded = 10;
+    int lines = 0; int linesNeeded = 5;
     int level = 0;
     int linesClearedAtOnce = 0;
     int bag7number = 0;
@@ -94,8 +97,8 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     int hardDropTest = 0;
     int centerX = 0;
     int centerY = 0;
-    public static int rotationType = 2; // 0 is Classic, 1 is SRS, 2 is SRS++ or Custom
-    public static int randomType = 2; // 0 is Complete Randomness, 1 is Classic, 2 is 7-bag
+    public static int rotationType = 0; // 0 is Classic, 1 is SRS, 2 is SRS++ or Custom
+    public static int randomType = 0; // 0 is Complete Randomness, 1 is Classic, 2 is 7-bag
     public static int mapNum = 0;
     long startTime = 0;
     long sprintTime = 0;
@@ -146,13 +149,6 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         tetrisPieceImage[9] = BitmapFactory.decodeResource(getResources(), R.drawable.tetrissolid);
         tetrisGhost = BitmapFactory.decodeResource(getResources(), R.drawable.tetrisghost);
 
-        /*holdredtetris = BitmapFactory.decodeResource(getResources(), R.drawable.NextRedPiece);
-        holdorangetetris = BitmapFactory.decodeResource(getResources(), R.drawable.nextorangepiece);
-        holdyellowtetris = BitmapFactory.decodeResource(getResources(), R.drawable.NextYellowPiece);
-        holdgreentetris = BitmapFactory.decodeResource(getResources(), R.drawable.NextGreenPiece);
-        holdbluetetris = BitmapFactory.decodeResource(getResources(), R.drawable.nextbluepiece);
-        holdlightbluetetris = BitmapFactory.decodeResource(getResources(), R.drawable.NextLightBluePiece);
-        holdpurpletetris = BitmapFactory.decodeResource(getResources(), R.drawable.NextPurplePiece);*/
         TV = (TextView)findViewById(R.id.TV);
         TV2 = (TextView)findViewById(R.id.TV2);
         TV3 = (TextView)findViewById(R.id.TV3);
@@ -167,6 +163,9 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         clicksound = MediaPlayer.create(this,R.raw.clickingame);
         gameover= MediaPlayer.create(this,R.raw.gameover2);
         getscoresound= MediaPlayer.create(this,R.raw.getscore2);
+        musicingame = MediaPlayer.create(this,R.raw.musicingame);
+        float log1=(float)(Math.log(maxVolume-40)/Math.log(maxVolume));
+        musicingame.setVolume(log1,log1);
 
         if(showPointsLog){
             TV5.setVisibility(View.VISIBLE);
@@ -184,9 +183,9 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
 
         setMaps();
 
-        for(int i = 0; i <= 6; i++){
-            bag7[i] = 8;
-        }
+/*        for(int i = 0; i <= 6; i++){
+            //bag7[i] = 8;
+        }*/
 
         button.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -245,23 +244,28 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     }
 
     void startGame() {
+        musicingame.start();
+        musicingame.setLooping(true);
         random = getRandom(7, 0);
-        bag7[0] = random;
+        //bag7[0] = random;
         random2 = getRandom(7, 0);
-        bag7numberCheck++;
-        bag7number++;
-        check7bag(2);
+        //bag7numberCheck++;
+       // bag7number++;
+        //check7bag(2);
         random3 = getRandom(7, 0);
-        bag7numberCheck++;
-        bag7number++;
-        check7bag(3);
+        //bag7numberCheck++;
+        //bag7number++;
+        //check7bag(3);
         random4 = getRandom(7, 0);
-        bag7numberCheck++;
-        bag7number++;
-        check7bag(4);
+        //bag7numberCheck++;
+        //bag7number++;
+       // check7bag(4);
         showBoard();
         getPiece();
-        if(playMode.equals("Sprint")) {
+
+        TV5.setVisibility(View.VISIBLE);
+        TV4.setVisibility(View.VISIBLE);
+        /*if(playMode.equals("Sprint")) {
             startTime = (long)SystemClock.uptimeMillis();
             timer.sendEmptyMessage(7);
             TV5.setVisibility(View.INVISIBLE);
@@ -269,7 +273,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
         } else {
             TV5.setVisibility(View.VISIBLE);
             TV4.setVisibility(View.VISIBLE);
-        }
+        }*/
     }
 
     protected class MainView extends View {
@@ -351,6 +355,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     }
 
     public void lose(){
+        musicingame.stop();
         Intent intent = new Intent(this,Gameover.class);
         Bundle bundle = new Bundle();
         gameover.start();
@@ -410,9 +415,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             } else {
                 TV.append("\n\nFastest Time: \n" + sprintHighscore);
             }*/
-        // đóng gói bundle vào intent
         intent.putExtras(bundle);
-// start SecondActivity
         startActivity(intent);
     }
 
@@ -426,12 +429,12 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             editor.commit();
             Toast toast = Toast.makeText(getApplication(), "Score is saved", Toast.LENGTH_SHORT);
             toast.show();
-        } else if(playMode.equals("Sprint")){
+        } /*else if(playMode.equals("Sprint")){
             editor.putString("sprint highscore", sprintHighscore);
             editor.commit();
 
             Toast.makeText(this, "Time is saved", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     public void readPreferences(){
@@ -443,13 +446,13 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                 highscore = 0;
             }
 
-        } else if(playMode.equals("Sprint")){
+        } /*else if(playMode.equals("Sprint")){
             try {
                 sprintHighscore = mPref.getString("sprint highscore", "99 : 99 : 999");
             } catch (Exception PrefEmpty){
                 sprintHighscore = "99 : 99 : 999";
             }
-        }
+        }*/
 
         try {
             randomType = mPref.getInt("Random Type", 3); // Second one means get what value if this does not exist
@@ -469,8 +472,11 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     }
 
     public void onPause(View v){
-        if(playMode.equals("Sprint"))
-            pausedSprintTimeStart = SystemClock.uptimeMillis();
+        Intent intent = new Intent(this,StartScreen.class);
+        if (musicingame.isPlaying())
+            musicingame.pause();
+        /*if(playMode.equals("Sprint"))
+            pausedSprintTimeStart = SystemClock.uptimeMillis();*/
         paused = true;
         if(paused) {
             timer.removeMessages(0);
@@ -483,16 +489,18 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             timer.removeMessages(7);
             new AlertDialog.Builder(this).setTitle("PAUSED!").setMessage("This game is paused, obviously.").setIcon(R.drawable.pausebutton).setPositiveButton("Resume", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which){
+                    musicingame.start();
                     paused = false;
-                    if(playMode.equals("Sprint")) {
+                    /*if(playMode.equals("Sprint")) {
                         startTime = startTime + (SystemClock.uptimeMillis() - pausedSprintTimeStart);
                         timer.sendEmptyMessage(7);
-                    }
+                    }*/
                     timer.sendEmptyMessageDelayed(0, dropSpeed / 2);
                 }
             })
                     .setNegativeButton("Restart", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which){
+                            musicingame.start();
                             paused = false;
                             level = 0;
                             score = 0;
@@ -525,22 +533,23 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                             random2 = 8;
                             random3 = 8;
                             random4 = 8;
-                            linesNeeded = 10;
-                            for(int i = 0; i <= 6; i++){
-                                bag7[i] = 8;
-                            }
-                            bag7number = 0;
-                            bag7numberCheck = 0;
-                            if(playMode.equals("Sprint")){
+                            linesNeeded = 5;
+/*                            for(int i = 0; i <= 6; i++){
+                                //bag7[i] = 8;
+                            }*/
+                            //bag7number = 0;
+                            //bag7numberCheck = 0;
+                            /*if(playMode.equals("Sprint")){
                                 sprintTime = 0;
                                 startTime = 0;
-                            }
+                            }*/
                             setMaps();
                             startGame();
                         }
                     })
                     .setNeutralButton("Exit", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which){
+                            musicingame.release();
                             paused = false;
                             level = 0;
                             score = 0;
@@ -568,22 +577,23 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                             softDrop = false;
                             DASR = false;
                             DASL = false;
-                            linesNeeded = 10;
+                            linesNeeded = 5;
                             level = 0;
                             random = 8;
                             random2 = 8;
                             random3 = 8;
                             random4 = 8;
-                            for(int i = 0; i <= 6; i++){
-                                bag7[i] = 8;
-                            }
-                            bag7number = 0;
-                            bag7numberCheck = 0;
-                            if(playMode.equals("Sprint")){
+/*                            for(int i = 0; i <= 6; i++){
+                                //bag7[i] = 8;
+                            }*/
+                            //bag7number = 0;
+                            //bag7numberCheck = 0;
+                            /*if(playMode.equals("Sprint")){
                                 sprintTime = 0;
                                 startTime = 0;
-                            }
+                            }*/
                             finish();
+                            startActivity(intent);
                         }
                     })
                     .show();
@@ -1017,7 +1027,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
     }
 
 
-    void check7bag(int rand){
+    /*void check7bag(int rand){
         if(rand == 4) {
             for (int i = bag7numberCheck; i >= 0; i--) {
                 if (bag7[i] == random4) {
@@ -1039,7 +1049,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             }
             bag7[1] = random2;
         }
-    }
+    }*/
 
     void getPiece() {
         lockInAir = true;
@@ -1049,7 +1059,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             random2 = random3;
             random3 = random4;
             random4 = getRandom(7, 0);
-            if(randomType == 2) {
+            /*if(randomType == 2) {
                 bag7numberCheck++;
                 if (bag7numberCheck > 6)
                     bag7numberCheck = 6;
@@ -1065,7 +1075,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                 if(random4 == random3){
                     random4 = getRandom(7, 0);
                 }
-            }
+            }*/
         }
         dontWorryAboutIt = false;
             if (random == 0) {
@@ -1688,6 +1698,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                                     break bigif;
                                 }
                             }
+                            getscoresound.start();
                             lines += 1;
                             linesNeeded--;
                             linesClearedAtOnce++;
@@ -1856,17 +1867,17 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             }
 
 
-            if (tSpinCorners <= 2) {                                      ////////////////////////////////////////////////DO THE T SPIN //////////////////////////////////////////////
+/*            if (tSpinCorners <= 2) {                                      ////////////////////////////////////////////////DO THE T SPIN //////////////////////////////////////////////
                 TSpin = false;
-            }
+            }*/
 
             if (linesNeeded <= 0) {
                 level++;
-                linesNeeded += 10;
+                linesNeeded += 5;
                 TV4.setText("Level : " + level);
             }
 
-            Boolean PC = true;
+/*           Boolean PC = true;
 
             PC:
             for (int i = 0; i < 10; i++) {
@@ -1876,9 +1887,9 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                         break PC;
                     }
                 }
-            }
+            }*/
 
-            if (PC) {
+/*            if (PC) {
                 if (linesClearedAtOnce == 1) {
                     score += 100 * (level + 1) + combo * 50 + 4000 * (level + 1);
                     piecesSinceCombo = 0;
@@ -2108,9 +2119,8 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                     }
                 }
                 B2B = true;
-            } else {
+            } else {*/
                 if (linesClearedAtOnce == 1) {
-                    getscoresound.start();
                     score += 100 * (level + 1) + combo * 50;
                     piecesSinceCombo = 0;
                     combo++;
@@ -2124,14 +2134,12 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
                     TV5.append("Double\n");
                     B2B = false;
                 } else if (linesClearedAtOnce == 3) {
-                    getscoresound.start();
                     score += 500 * (level + 1) + combo * 50;
                     piecesSinceCombo = 0;
                     combo++;
                     TV5.append("Triple\n");
                     B2B = false;
                 } else if (linesClearedAtOnce == 4) {
-                    getscoresound.start();
                     if (B2B)
                         score += 1200 * (level + 1) + combo * 50;
                     else
@@ -2148,7 +2156,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             TV3.setText("Lines : " + lines);
             TV2.setText("Score : " + score);
 
-        } else if (playMode.equals("Sprint")){
+        /*}*//* else if (playMode.equals("Sprint")){
 
             for (int runs = 0; runs < 3; runs++) {
                 for (int j = 0; j < 26; j++) {
@@ -2183,7 +2191,7 @@ public class Marathon extends AppCompatActivity implements Rotation.eventListen 
             if(lines >= 40){/////////////////////////////////////////////////////////////////////////////////////SPRINT WIN CONDITION/////////////////////////////
                 lose();
             }
-        }
+        }*/
     }
 
     public int getRandom(int a, int b){

@@ -88,33 +88,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
+
+                <ImageButton
+                    android:id="@+id/ButtonRotate180"
+                    android:layout_width="180px"
+                    android:layout_height="180px"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="onDropClick"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/btnarrowrotateupdown"/>
+                <ImageButton
+                    android:layout_height="180px"
+                    android:layout_width="180px"
+                    android:text="←"
+                    android:textSize="30dp"
+                    android:onClick="onClick"
+                    android:background="@drawable/btnarrowleft"
+                    android:id="@+id/ButtonLeft"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageButton
                     android:id="@+id/ButtonHardDrop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="180px"
+                    android:layout_height="180px"
                     android:layout_alignParentRight="true"
-                    android:layout_weight="1"
                     android:onClick="onDropClick"
                     android:text="▼"
-                    android:textSize="30dp" />
+                    android:textSize="30dp"
+                    android:background="@drawable/btndrophard"
+                    android:layout_marginRight="10dp"/>
 
                 <ImageButton
                     android:layout_height="180px"
                     android:layout_width="180px"
-                    android:background="@drawable/btnarrowdown"
-                    android:onClick="onDropClick"
-                    android:id="@+id/ButtonSoftDrop"/>
+                    android:onClick="onClick"
+                    android:background="@drawable/btnarrowright"
+                    android:id="@+id/ButtonRight" />
 
-
-                <Button
-                    android:id="@+id/ButtonRotate180"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_weight="1"
-                    android:onClick="onDropClick"
-                    android:text="↕"
-                    android:textSize="30dp" />
 
 
             </LinearLayout>
@@ -126,39 +137,34 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
+
             <ImageButton
                 android:layout_height="180px"
                 android:layout_width="180px"
-                android:text="←"
-                android:textSize="30dp"
-                android:onClick="onClick"
-                android:background="@drawable/btnarrowleft"
-                android:id="@+id/ButtonLeft"/>
-
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="2"
                 android:text="↶"
                 android:textSize="30dp"
                 android:onClick="onRotateClick"
-                android:id="@+id/ButtonRotateLeft"/>
-
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:text="↷"
-                android:textSize="30dp"
-                android:onClick="onRotateClick"
-                android:id="@+id/ButtonRotateRight"/>
+                android:id="@+id/ButtonRotateLeft"
+                android:background="@drawable/btnarrowrotateleft"
+                android:layout_marginLeft="20dp"/>
 
             <ImageButton
                 android:layout_height="180px"
                 android:layout_width="180px"
-                android:onClick="onClick"
-                android:background="@drawable/btnarrowright"
-                android:id="@+id/ButtonRight"/>
+                android:text="↷"
+                android:textSize="30dp"
+                android:onClick="onRotateClick"
+                android:id="@+id/ButtonRotateRight"
+                android:background="@drawable/btnarrowrotateright"
+                android:layout_marginLeft="20dp"/>
+            <ImageButton
+                android:layout_height="180px"
+                android:layout_width="180px"
+                android:background="@drawable/btnarrowdown"
+                android:onClick="onDropClick"
+                android:id="@+id/ButtonSoftDrop"
+                android:layout_marginRight="80dp"
+                android:layout_marginLeft="60dp"/>
 
         </LinearLayout>
 

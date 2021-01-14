@@ -24,13 +24,12 @@ public class Gameover extends AppCompatActivity {
         hsc.setText(highscore.toString());
     }
     public void onHome(View v){
-        Intent intentover= new Intent(this, Gameover.class);
-        startActivity(intentover);
         finish();
         Intent intent = new Intent(this, StartScreen.class);
         startActivity(intent);
     }
     public void onRetry(View v){
+        finish();
         Intent intent = new Intent(this, Marathon.class);
         startActivity(intent);
     }

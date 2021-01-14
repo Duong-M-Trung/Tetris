@@ -17,6 +17,7 @@ public class StartScreen extends AppCompatActivity {
     SharedPreferences mPref;
     private MediaPlayer mediaPlayer;
     private MediaPlayer buttonsound;
+    private int maxVolume = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
